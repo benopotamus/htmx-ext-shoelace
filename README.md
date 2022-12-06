@@ -23,3 +23,6 @@ An extension to make [Shoelace](https://shoelace.style/) elements work seamlessl
 
 1. add support for https://htmx.org/attributes/hx-params/
 1. all the fancy validation stuff in htmx.js processInputValue() ?
+
+## And now, a poem
+![image](https://user-images.githubusercontent.com/3161149/205877493-5ad681cc-c3be-4704-b41f-9c519a14a34d.png)
