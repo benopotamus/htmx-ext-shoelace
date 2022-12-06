@@ -1,16 +1,12 @@
 const slTypes = 'sl-button, sl-checkbox, sl-color-picker, sl-input, sl-radio-group, sl-range, sl-rating, sl-select, sl-switch, sl-textarea'
 
-// TODO add support for https://htmx.org/attributes/hx-params/
-// TODO do all the fancy validation stuff in htmx.js processInputValue() ?
-
 /* Lightly modified version of the same function in htmx.js */
 function shouldInclude(elt) {
 
-	// This first `if` is a workaround because sl-rating doesn't have a name attribute for some reason. I'm waiting to hear back from author of Shoelace about including it
+	// sl-rating doesn't have a name attribute exposed through the Shoelace API
 	if (elt.tagName == 'SL-RATING' && elt.getAttribute('name')) {
 		return true;
 	}
-
 	if (elt.name === "" || elt.name == null || elt.disabled) {
 		return false;
 	}
