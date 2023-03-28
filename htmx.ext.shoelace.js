@@ -7,6 +7,9 @@ function shouldInclude(elt) {
 	if (elt.tagName == 'SL-RATING' && elt.getAttribute('name')) {
 		return true;
 	}
+	  if (elt.tagName == 'SL-SELECT' && elt.getAttribute('name')) {
+	        return true;
+	}
 	if (elt.name === "" || elt.name == null || elt.disabled) {
 		return false;
 	}
@@ -28,7 +31,7 @@ htmx.defineExtension('shoelace', {
 					if (elt.tagName === 'SL-CHECKBOX' || elt.tagName === 'SL-SWITCH') {
 						evt.detail.parameters[elt.name] = elt.checked
 
-					} else if (elt.tagName == 'SL-RATING') {
+					} else if (elt.tagName == 'SL-RATING'  || elt.tagName == 'SL-SELECT') {
 						evt.detail.parameters[elt.getAttribute('name')] = elt.value
 
 					} else {
