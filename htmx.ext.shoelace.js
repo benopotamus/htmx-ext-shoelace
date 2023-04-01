@@ -19,23 +19,67 @@ function shouldInclude(elt) {
 	return true;
 }
 
+function addParameter(parameters, elt) {
+    if (elt.tagName === 'SL-CHECKBOX' || elt.tagName === 'SL-SWITCH') {
+        parameters[elt.name] = elt.checked;
+    } else if (elt.tagName == 'SL-RATING') {
+        parameters[elt.getAttribute('name')] = elt.value;
+    } else {
+        parameters[elt.name] = elt.value;
+    }
+}
+
+function includeAllParameters(elt) {
+    let parameters = {};
+    elt.querySelectorAll(slTypes).forEach((elt) => {
+        if (shouldInclude(elt)) {
+            addParameter(parameters, elt);
+        }
+    });
+    return parameters;
+}
+
+function excludeParameters(elt, excludedParams) {
+    let parameters = {};
+    elt.querySelectorAll(slTypes).forEach((elt) => {
+        if (shouldInclude(elt) && !excludedParams.includes(elt.name)) {
+            addParameter(parameters, elt);
+        }
+    });
+    return parameters;
+}
+
+function includeParameters(elt, includedParams) {
+    let parameters = {};
+    elt.querySelectorAll(slTypes).forEach((elt) => {
+        if (shouldInclude(elt) && includedParams.includes(elt.name)) {
+            addParameter(parameters, elt);
+        }
+    });
+    return parameters;
+}
+
+
+
 htmx.defineExtension('shoelace', {
-	onEvent : function(name, evt) {
-		if ((name === "htmx:configRequest") && (evt.detail.elt.tagName == 'FORM')) {
-			evt.detail.elt.querySelectorAll(slTypes).forEach((elt) => {
-				if (shouldInclude(elt)) {
+    onEvent : function(name, evt) {
+        if ((name === "htmx:configRequest") && (evt.detail.elt.tagName == 'FORM')) {
+            let parameters = {};
+            let hxParams = evt.detail.elt.getAttribute('hx-params');
 
-					if (elt.tagName === 'SL-CHECKBOX' || elt.tagName === 'SL-SWITCH') {
-						evt.detail.parameters[elt.name] = elt.checked
+            if (!hxParams || hxParams === "*") {
+                parameters = includeAllParameters(evt.detail.elt);
+            } else if (hxParams === "none") {
+                parameters = {}
+            } else if (hxParams.startsWith("not ")) {
+                let excludedParams = hxParams.substr(4).split(",");
+                parameters = excludeParameters(evt.detail.elt, excludedParams);
+            } else {
+                let includedParams = hxParams.split(",");
+                parameters = includeParameters(evt.detail.elt, includedParams);
+            }
 
-					} else if (elt.tagName == 'SL-RATING') {
-						evt.detail.parameters[elt.getAttribute('name')] = elt.value
-
-					} else {
-						evt.detail.parameters[elt.name] = elt.value
-					}
-				}
-			})
-		}
-	}
-})
+            evt.detail.parameters = parameters;
+        }
+    }
+});
