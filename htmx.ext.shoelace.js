@@ -63,23 +63,24 @@ function includeParameters(elt, includedParams) {
 
 htmx.defineExtension('shoelace', {
     onEvent : function(name, evt) {
-        if ((name === "htmx:configRequest") && (evt.detail.elt.tagName == 'FORM')) {
-            let parameters = {};
-            let hxParams = evt.detail.elt.getAttribute('hx-params');
+        if ((name !== "htmx:configRequest") && (evt.detail.elt.tagName != 'FORM')) {
+			return
+		}
 
-            if (!hxParams || hxParams === "*") {
-                parameters = includeAllParameters(evt.detail.elt);
-            } else if (hxParams === "none") {
-                parameters = {}
-            } else if (hxParams.startsWith("not ")) {
-                let excludedParams = hxParams.substr(4).split(",");
-                parameters = excludeParameters(evt.detail.elt, excludedParams);
-            } else {
-                let includedParams = hxParams.split(",");
-                parameters = includeParameters(evt.detail.elt, includedParams);
-            }
+		let parameters = {};
+		let hxParams = evt.detail.elt.getAttribute('hx-params');
 
-            evt.detail.parameters = parameters;
-        }
+		if (!hxParams || hxParams === "*") {
+			parameters = includeAllParameters(evt.detail.elt);
+		} else if (hxParams === "none") {
+			parameters = {}
+		} else if (hxParams.startsWith("not ")) {
+			let excludedParams = hxParams.substr(4).split(",");
+			parameters = excludeParameters(evt.detail.elt, excludedParams);
+		} else {
+			let includedParams = hxParams.split(",");
+			parameters = includeParameters(evt.detail.elt, includedParams);
+		}
+		evt.detail.parameters = parameters;
     }
 });
