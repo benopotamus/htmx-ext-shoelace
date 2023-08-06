@@ -1,10 +1,10 @@
 # htmx-ext-shoelace
 
-An extension to make [Shoelace](https://shoelace.style/) elements work seamlessly (as possible) with HTMX.
+An extension to make [Shoelace](https://shoelace.style/) elements work seamlessly (as possible) with htmx.
 
 ## Usage
 
-1. Import HTMX and the extension
+1. Import htmx and the extension
 
 ```
 <script src="htmx.js"></script>
@@ -19,10 +19,18 @@ An extension to make [Shoelace](https://shoelace.style/) elements work seamlessl
 
 3. Don't forget to add a `name` attribute to your Shoelace elements 🤦
 
-## TODO
+## TypeError: Cannot read properties of null (reading 'focus')
 
-1. add support for https://htmx.org/attributes/hx-params/
-1. all the fancy validation stuff in htmx.js processInputValue() ?
+If you're experiencing this error, the solution is to change this [line in htmx](https://github.com/bigskysoftware/htmx/blob/66387c04221b257b9cfa858db2636e6dd3c6fda7/src/htmx.js#L3386C37-L3386C37) to:
 
-## And now, a poem
-![image](https://user-images.githubusercontent.com/3161149/205877493-5ad681cc-c3be-4704-b41f-9c519a14a34d.png)
+```
+// Temporary Shoelace+htmx fix
+try {
+	newActiveElt.focus(focusOptions);
+} catch (error) {
+	console.warn('Error when executing newActiveElt.focus(focusOptions);')
+	console.warn(error)
+}
+```
+
+A little more discussion on the topic is here https://github.com/shoelace-style/shoelace/discussions/866#discussion-4321444
