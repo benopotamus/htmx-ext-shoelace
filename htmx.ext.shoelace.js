@@ -23,15 +23,20 @@ htmx.defineExtension('shoelace', {
 		if ((name === "htmx:configRequest") && (evt.detail.elt.tagName === "FORM")) {
 			evt.detail.elt.querySelectorAll(slTypes).forEach((elt) => {
 				if (shouldInclude(elt)) {
-
-					if (elt.tagName === "SL-CHECKBOX" || elt.tagName === "SL-SWITCH") {
-						evt.detail.parameters[elt.name] = elt.checked;
-
-					} else if (elt.tagName === "SL-RATING") {
-						evt.detail.parameters[elt.getAttribute("name")] = elt.value;
-
-					} else {
-						evt.detail.parameters[elt.name] = elt.value;
+					switch (elt.tagName) {
+						case "SL-CHECKBOX":
+						case "SL-SWITCH":
+							evt.detail.parameters[elt.name] = elt.checked;
+							break;
+						case "SL-RATING":
+							evt.detail.parameters[elt.getAttribute("name")] = elt.value;
+							break;
+						case "SL-SELECT":
+							evt.detail.parameters[elt.name] = [elt.value];
+							break;
+						default:
+							evt.detail.parameters[elt.name] = elt.value;
+							break;
 					}
 				}
 			});
