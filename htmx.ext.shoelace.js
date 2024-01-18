@@ -15,6 +15,10 @@ function shouldInclude(elt) {
 		return elt.checked;
 	}
 
+	if (elt.tagName === "SL-SELECT") {
+		return elt.value.length > 0;
+	}
+
 	return true;
 }
 
