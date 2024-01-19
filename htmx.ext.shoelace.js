@@ -15,7 +15,7 @@ function shouldInclude(elt) {
 		return elt.checked;
 	}
 
-	if (elt.tagName === "SL-SELECT") {
+	if (elt.tagName === "SL-SELECT" || elt.tagName === "SL-RADIO-GROUP") {
 		return elt.value.length > 0;
 	}
 
@@ -30,7 +30,7 @@ htmx.defineExtension('shoelace', {
 					switch (elt.tagName) {
 						case "SL-CHECKBOX":
 						case "SL-SWITCH":
-							evt.detail.parameters[elt.name] = elt.checked;
+							evt.detail.parameters[elt.name] = elt.value ?? elt.checked;
 							break;
 						case "SL-RATING":
 							evt.detail.parameters[elt.getAttribute("name")] = elt.value;
