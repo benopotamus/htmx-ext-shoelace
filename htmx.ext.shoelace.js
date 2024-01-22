@@ -7,7 +7,7 @@ function shouldInclude(elt) {
 		return true;
 	}
 
-	if (elt.name === "" || elt.name == null || elt.type === "submit") {
+	if (elt.name === "" || elt.name == null || elt.disabled || elt.type === "submit") {
 		return false;
 	}
 
