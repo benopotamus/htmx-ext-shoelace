@@ -3,10 +3,10 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<script src="https://unpkg.com/htmx.org@1.9.10"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/themes/light.css" />
-	<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/shoelace-autoloader.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/themes/light.css" />
+	<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/shoelace-autoloader.js"></script>
 
-	<script src="htmx.ext.shoelace.js.old"></script>
+	<script src="htmx.ext.shoelace.js"></script>
 
 	<style>
 		#form-and-result {
@@ -57,7 +57,8 @@
 			</sl-radio-group>
 			<sl-range name="myrange"></sl-range>
 			
-			<sl-rating name="myrating" label="myrating"></sl-rating>
+			with name <sl-rating name="myrating" label="myrating"></sl-rating>
+			without name <sl-rating name="myrating" label="myrating-without-name"></sl-rating>
 
 			<sl-select name="shoelace-select" label="shoelace-select">
 				<sl-menu-item value="option-1">Option 1</sl-menu-item>
@@ -72,6 +73,18 @@
 			<sl-switch name="myswitch">myswitch (no value)</sl-switch>
 			<sl-switch name="myswitch-with-value" value="Confirmed! Shoelace rocks">myswitch-with-value</sl-switch>
 			<sl-textarea name="mytextarea" label="mytextarea"></sl-textarea>
+
+			<hr>
+			<fieldset>
+				<legend>Fieldset A: a non-disabled fieldset</legend>
+				<sl-input name="field-in-fieldset-a" label="field-in-fieldset-a"></sl-input>
+			</fieldset>
+			<fieldset disabled>
+				<legend>Fieldset B: Disabled fieldset</legend>
+				<sl-input name="field-in-fieldset-b" label="field-in-fieldset-b"></sl-input>
+			</fieldset>
+			<sl-input name="disabed-input" label="disabed-input"></sl-input>
+			<hr>
 
 			<sl-button type="submit">Submit</sl-button>
 			<button type="submit">Native submit button</button>
