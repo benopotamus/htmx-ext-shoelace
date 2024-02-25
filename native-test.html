@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+	<style>
+		#form-and-result {
+			display: flex;
+  			gap: 40px;
+		}
+		form {
+			width: 300px;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+		fieldset > * {
+			display: block;
+		}
+		#result {
+			background-color: beige;
+			padding: 20px;
+			border-radius: 10px;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="form-and-result">
+		<form hx-post="/submit" hx-target="#result">
+			<input name="my-text-input">
+			<label>Duplicate of above input
+				<input name="my-text-input">
+			</label>
+
+			<textarea name="my-text-area"></textarea>
+
+			<fieldset>
+				<legend>Radio buttons</legend>
+				<label>
+					<input type="radio" name="radio-value" value="1">
+					value=1
+				</label>
+				<label>
+					<input type="radio" name="radio-value" value="2">
+					value=2
+				</label>
+				<label>
+					<input type="radio" name="radio-value">
+					No value
+				</label>
+			</fieldset>
+
+			<fieldset>
+				<legend>Checkboxes</legend>
+				<label>
+					<input type="checkbox" name="checkbox-1">
+					checkbox 1 - no value
+				</label>
+				<label>
+					<input type="checkbox" name="checkbox-2" value="checkbox 2">
+					checkbox 2 - has value
+				</label>
+			</fieldset>
+
+			<label>
+				Select without values
+				<select name="select-without-values">
+					<option>a</option>
+					<option>b</option>
+					<option>c</option>
+					<option></option>
+				</select>
+			</label>
+
+			<label>
+				select with value (colors)
+				<select name="select-with-values">
+					<option value="value-is-blue">blue</option>
+					<option value="value-is-green">green</option>
+					<option value="value-is-red">red</option>
+				</select>
+			</label>
+
+			<label>
+				Default blank select (first value is blank)
+				<select name="default-blank-select">
+					<option></option>
+					<option>a</option>
+					<option>b</option>
+					<option>c</option>
+				</select>
+			</label>
+
+			<select name="multi-select" multiple size="3">
+				<option>Carrot</option>
+				<option>Eggplant</option>
+				<option>Potato</option>
+			</select>
+
+			<button type="submit">Native submit button</button>
+		</form>
+
+		<pre id="result"></pre>
+	</div>
+	
+
+	<h2>Form submission rules</h2>
+	<ol>
+		<li>Fields are only included if they have a <code>name</code> attribute.</li>
+		<li>Two included fields with the same name will result in 2 entries in that same name in the form submission.</li>
+		<li>Blank Input and TextArea elements are included</li>
+		<li>Select element value will be the value of the selected option, or if no value attribute is present, the innerText of the selected option element.</li>
+		<li>Unchecked checkboxes are not included</li>
+		<li>A checkbox without a value attribute will have a value of "on"</li>
+		<li>Unselected radio buttons are not included</li>
+		<li>A radio button without a value attribute will have a value of "on"</li>
+		<li>The select <code>multiple</code> attribute will include multiple entries with the same name, and their respective values.</li>
+	</ol>
+</body>
+</html>
