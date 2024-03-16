@@ -9,10 +9,6 @@
 	<script src="htmx.ext.shoelace.js"></script>
 
 	<style>
-		#form-and-result {
-			display: flex;
-  			gap: 40px;
-		}
 		form {
 			width: 500px;
 			display: flex;
@@ -23,6 +19,8 @@
 			display: block;
 		}
 		#result {
+			position: fixed;
+  			left: 600px;
 			background-color: beige;
 			padding: 20px;
 			border-radius: 10px;
@@ -32,6 +30,7 @@
 <body hx-ext="shoelace">
 
 	<div id="form-and-result">
+		<pre id="result"></pre>
 		<form hx-post="/submit" hx-target="#result">
 
 			<sl-button name="mybutton-novalue">mybutton-novalue</sl-button>
@@ -58,7 +57,7 @@
 			<sl-range name="myrange"></sl-range>
 			
 			with name <sl-rating name="myrating" label="myrating"></sl-rating>
-			without name <sl-rating name="myrating" label="myrating-without-name"></sl-rating>
+			without name <sl-rating label="myrating-without-name"></sl-rating>
 
 			<sl-select name="shoelace-select" label="shoelace-select">
 				<sl-menu-item value="option-1">Option 1</sl-menu-item>
@@ -89,7 +88,6 @@
 			<sl-button type="submit">Submit</sl-button>
 			<button type="submit">Native submit button</button>
 		</form>
-		<pre id="result"></pre>
 	</div>
 </body>
 </html>
