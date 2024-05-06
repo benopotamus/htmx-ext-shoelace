@@ -28,6 +28,10 @@ htmx.defineExtension('shoelace', {
 		if ((name === "htmx:configRequest") && (evt.detail.elt.tagName === 'FORM')) {
 			evt.detail.elt.querySelectorAll(slTypes).forEach((elt) => {
 				if (shouldInclude(elt)) {
+					if (!elt.checkValidity()) {
+                          			evt.preventDefault();
+                          			return;
+                      			}
 					if (elt.tagName === 'SL-CHECKBOX' || elt.tagName === 'SL-SWITCH') {
 						// Shoelace normally does this bit internally when the formdata event fires, but htmx doesn't fire the formdata event, so we do it here instead. See https://github.com/shoelace-style/shoelace/issues/1891
 						evt.detail.parameters[elt.name] = elt.value || 'on'
