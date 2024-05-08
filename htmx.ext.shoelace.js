@@ -40,6 +40,11 @@ htmx.defineExtension('shoelace', {
 					}
 				}
 			})
+			// Prevent form submission if one or more fields are invalid. 
+			// evt.detail.elt is always a form as per the main if statement
+			if (!evt.detail.elt.checkValidity()) {
+				return false
+			}
 		}
 	}
 })

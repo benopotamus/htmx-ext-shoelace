@@ -42,6 +42,8 @@
 
 			<sl-color-picker name="mycolorpicker" label="mycolorpicker"></sl-color-picker>
 			<sl-input name="myinput" label="myinput"></sl-input>
+			<sl-input required="true" name="required-input" label="Required input"></sl-input>
+			<sl-input required="true" name="required-input2" label="Required input 2"></sl-input>
 
 			<sl-radio-group label="Radio group with preselected option" name="myradiogroup-preselect" value="1">
 				<sl-radio value="1">Option 1</sl-radio>
@@ -88,6 +90,19 @@
 			<sl-button type="submit">Submit</sl-button>
 			<button type="submit">Native submit button</button>
 		</form>
+
+		<hr><h2>hx-include test #1</h2>
+		<div id="hx-include-wrapper-div"><sl-input name="foo" type="text"></sl-input></div>
+		<sl-input id="include-me" name="bar" type="text"></sl-input>
+		<button 
+			type="button"
+			class="btn btn-primary"
+			hx-post="/submit" hx-target="#result"
+			hx-include="#hx-include-wrapper-div, #include-me">Include!</button>
+
+		<hr><h2>hx-include test #2</h2>
+		<p>This one is testing closest, find, next, previous</p>
+
 	</div>
 </body>
 </html>
