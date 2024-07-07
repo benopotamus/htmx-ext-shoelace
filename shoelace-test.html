@@ -9,7 +9,7 @@
 	<script src="htmx.ext.shoelace.js"></script>
 
 	<style>
-		form {
+		form, .form-like-section {
 			width: 500px;
 			display: flex;
 			flex-direction: column;
@@ -26,12 +26,19 @@
 			border-radius: 10px;
 		}
 	</style>
+
+	<script>
+		addEventListener("formdata", (event) => {
+			// alert('formdata event fired')
+			console.log(event.formData)
+		})
+	</script>
 </head>
 <body hx-ext="shoelace">
 
 	<div id="form-and-result">
 		<pre id="result"></pre>
-		<form hx-post="/submit" hx-target="#result">
+		<form hx-post="/submit" hx-params="not excluded-param" hx-target="#result">
 
 			<sl-button name="mybutton-novalue">mybutton-novalue</sl-button>
 			<sl-button value="mybutton-noname">Noname button. value is 'mybutton-noname'</sl-button>
@@ -44,6 +51,7 @@
 			<sl-input name="myinput" label="myinput"></sl-input>
 			<sl-input required="true" name="required-input" label="Required input"></sl-input>
 			<sl-input required="true" name="required-input2" label="Required input 2"></sl-input>
+			<sl-input name="excluded-param" label="Excluded field (using hx-params)"></sl-input>
 
 			<sl-radio-group label="Radio group with preselected option" name="myradiogroup-preselect" value="1">
 				<sl-radio value="1">Option 1</sl-radio>
@@ -92,23 +100,34 @@
 			<button type="submit">Native submit button</button>
 		</form>
 
-		<hr><h2>hx-include test #1</h2>
-		<div id="hx-include-wrapper-div"><sl-input label="Nested include from parent's ID" name="foo" type="text"></sl-input></div>
-		<sl-input id="include-me" label="Direct include by ID" name="bar" type="text"></sl-input>
-		<button 
-			type="button"
-			class="btn btn-primary"
-			hx-post="/submit" hx-target="#result"
-			hx-include="#hx-include-wrapper-div, #include-me">Include!</button>
+		<hr>
+		<div class="form-like-section">
+			<h2>hx-include test #1</h2>
+			<div id="hx-include-wrapper-div"><sl-input label="Nested include from parent's ID" name="foo" type="text"></sl-input></div>
+			<sl-input id="include-me" label="Direct include by ID" name="bar" type="text"></sl-input>
+			<button 
+				type="button"
+				class="btn btn-primary"
+				hx-post="/submit" hx-target="#result"
+				hx-include="#hx-include-wrapper-div sl-input, #include-me">Include!</button>
+		</div>
 
-		<hr><h2>hx-include test #2</h2>
-		<p>This one is testing next</p>
-		<button 
-			type="button"
-			class="btn btn-primary"
-			hx-post="/submit" hx-target="#result"
-			hx-include="next sl-input">Include!</button>
-		<sl-input label="Closest input to button above" name="test2-bar" type="text"></sl-input>
+		<div class="form-like-section">
+			<h2>hx-include test #2</h2>
+			<p>This one is testing next</p>
+			<button 
+				type="button"
+				class="btn btn-primary"
+				hx-post="/submit" hx-target="#result"
+				hx-include="next sl-input">Include!</button>
+			<sl-input label="Closest input to button above" name="test2-bar" type="text"></sl-input>
+		</div>
+
+		<hr>
+		<h2>sl-buttons with name+value should submit forms</h2>
+		<form hx-post="/submit" hx-target="#result" style="border: 1px dashed red; padding: 20px;">
+			<sl-button name="submitty-button" value="special value button submit">Submit this mini form</sl-button>
+		</form>
 	</div>
 </body>
 </html>
