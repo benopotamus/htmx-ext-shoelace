@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<script src="https://unpkg.com/htmx.org@1.9.10"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/themes/light.css" />
-	<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/shoelace-autoloader.js"></script>
+	<script src="https://unpkg.com/htmx.org@2.0"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/themes/light.css" />
+	<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/shoelace-autoloader.js"></script>
 
 	<script src="htmx.ext.shoelace.js"></script>
 
@@ -62,13 +62,13 @@
 			without name <sl-rating label="myrating-without-name"></sl-rating>
 
 			<sl-select name="shoelace-select" label="shoelace-select">
-				<sl-menu-item value="option-1">Option 1</sl-menu-item>
-				<sl-menu-item value="option-2">Option 2</sl-menu-item>
-				<sl-menu-item value="option-3">Option 3</sl-menu-item>
+				<sl-option value="option-1">Option 1</sl-option>
+				<sl-option value="option-2">Option 2</sl-option>
+				<sl-option value="option-3">Option 3</sl-option>
 				<sl-divider></sl-divider>
-				<sl-menu-item value="option-4">Option 4</sl-menu-item>
-				<sl-menu-item value="option-5">Option 5</sl-menu-item>
-				<sl-menu-item value="option-6">Option 6</sl-menu-item>
+				<sl-option value="option-4">Option 4</sl-option>
+				<sl-option value="option-5">Option 5</sl-option>
+				<sl-option value="option-6">Option 6</sl-option>
 			</sl-select>
 
 			<sl-switch name="myswitch">myswitch (no value)</sl-switch>
@@ -88,12 +88,13 @@
 			<hr>
 
 			<sl-button type="submit">Submit</sl-button>
+			<sl-button name="submit-button" type="submit" value="I have value">Submit with value</sl-button>
 			<button type="submit">Native submit button</button>
 		</form>
 
 		<hr><h2>hx-include test #1</h2>
-		<div id="hx-include-wrapper-div"><sl-input name="foo" type="text"></sl-input></div>
-		<sl-input id="include-me" name="bar" type="text"></sl-input>
+		<div id="hx-include-wrapper-div"><sl-input label="Nested include from parent's ID" name="foo" type="text"></sl-input></div>
+		<sl-input id="include-me" label="Direct include by ID" name="bar" type="text"></sl-input>
 		<button 
 			type="button"
 			class="btn btn-primary"
@@ -101,8 +102,13 @@
 			hx-include="#hx-include-wrapper-div, #include-me">Include!</button>
 
 		<hr><h2>hx-include test #2</h2>
-		<p>This one is testing closest, find, next, previous</p>
-
+		<p>This one is testing next</p>
+		<button 
+			type="button"
+			class="btn btn-primary"
+			hx-post="/submit" hx-target="#result"
+			hx-include="next sl-input">Include!</button>
+		<sl-input label="Closest input to button above" name="test2-bar" type="text"></sl-input>
 	</div>
 </body>
 </html>
