@@ -23,7 +23,44 @@ function shouldInclude(elt) {
 }
 
 htmx.defineExtension('shoelace', {
-	onEvent : function(name, evt) {
+	init: function () {
+		document.body.addEventListener(
+			"click",
+			(e) => {
+				let target = e.target.closest(
+					"sl-button[href], sl-icon-button[href], sl-breadcrumb-item[href]"
+				);
+				let isBoosted = target.closest("[hx-boost], [data-hx-boost]");
+
+				if (
+					target &&
+					isBoosted &&
+					target.hasAttribute("href") &&
+					target.target !== "_blank" && // Match native behavior excluding _blank targets
+					(!target.hostname || target.hostname === window.location.hostname)
+				) {
+					// Only handle local links
+					e.preventDefault();
+					e.stopPropagation();
+
+					const href = target.getAttribute("href");
+					if (!target.hasAttribute("hx-push-url")) {
+						target.setAttribute("hx-push-url", "true");
+					}
+
+					htmx.ajax("GET", href, {
+						source: target,
+						event: e,
+						headers: {
+							"HX-Boost": "true",
+						},
+					});
+				}
+			},
+			true // enable only in capture phase
+		);
+	},
+	onEvent: function (name, evt) {
 		if ((name === "htmx:configRequest") && (evt.detail.elt.tagName === 'FORM')) {
 			evt.detail.elt.querySelectorAll(slTypes).forEach((elt) => {
 				if (shouldInclude(elt)) {
