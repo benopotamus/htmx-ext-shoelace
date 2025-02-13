@@ -30,15 +30,18 @@ htmx.defineExtension('shoelace', {
 				let target = e.target.closest(
 					"sl-button[href], sl-icon-button[href], sl-breadcrumb-item[href]"
 				);
-				let isBoosted = target.closest("[hx-boost], [data-hx-boost]");
 
 				if (
 					target &&
-					isBoosted &&
 					target.hasAttribute("href") &&
 					target.target !== "_blank" && // Match native behavior excluding _blank targets
 					(!target.hostname || target.hostname === window.location.hostname)
 				) {
+					let isBoosted = target.closest("[hx-boost], [data-hx-boost]");
+					if (!isBoosted) {
+					  return;
+					}
+		  
 					// Only handle local links
 					e.preventDefault();
 					e.stopPropagation();
