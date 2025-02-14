@@ -9,16 +9,11 @@ function shouldInclude(elt) {
 	}
 
 	// Don't include disabled fields (or fields in disabled fieldsets) or fields without names
-	if (
-		elt.name === "" ||
-		elt.name == null ||
-		elt.disabled ||
-		elt.closest("fieldset[disabled]")
-	) {
+	if (elt.name === "" || elt.name == null || elt.disabled || elt.closest("fieldset[disabled]")) {
 		return false;
 	}
 
-  // Don't include sl-radio-group value if no option is selected - see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#data_representation_of_a_radio_group
+	// Don't include sl-radio-group value if no option is selected - see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#data_representation_of_a_radio_group
 	if (elt.tagName === "SL-RADIO-GROUP") {
 		return elt.value.length > 0;
 	}
@@ -40,12 +35,9 @@ htmx.defineExtension("shoelace", {
 						target &&
 						target.hasAttribute("href") &&
 						target.target !== "_blank" && // Match native behavior excluding _blank targets
-						(!target.hostname ||
-							target.hostname === window.location.hostname)
+						(!target.hostname || target.hostname === window.location.hostname)
 					) {
-						let isBoosted = target.closest(
-							"[hx-boost], [data-hx-boost]"
-						);
+						let isBoosted = target.closest("[hx-boost], [data-hx-boost]");
 						if (!isBoosted) {
 							return;
 						}
@@ -74,15 +66,11 @@ htmx.defineExtension("shoelace", {
 		});
 	},
 	onEvent: function (name, evt) {
-		if (
-			name === "htmx:configRequest" &&
-			evt.detail.elt.tagName === "FORM"
-		) {
+		if (name === "htmx:configRequest" && evt.detail.elt.tagName === "FORM") {
 			evt.detail.elt.querySelectorAll(slTypes).forEach((elt) => {
 				if (shouldInclude(elt)) {
 					if (elt.tagName == "SL-RATING") {
-						evt.detail.parameters[elt.getAttribute("name")] =
-							elt.value;
+						evt.detail.parameters[elt.getAttribute("name")] = elt.value;
 					} else {
 						evt.detail.parameters[elt.name] = elt.value;
 					}
