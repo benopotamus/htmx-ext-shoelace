@@ -25,6 +25,10 @@
 			padding: 20px;
 			border-radius: 10px;
 		}
+		.well {
+			background-color: var(--sl-color-primary-100);
+			padding: var(--sl-spacing-medium);
+		}
 	</style>
 
 	<script>
@@ -129,5 +133,29 @@
 			<sl-button name="submitty-button" value="special value button submit">Submit this mini form</sl-button>
 		</form>
 	</div>
+
+	<h2>Boosting tests</h2>
+	<h3>1. hx-boost inheritance</h3>
+	<div hx-boost="true">
+		<p class="well">These 2 links are wrapped in a div with hx-boost=true. It is testing hx-boost attribute inheritance.</p>
+		This link should be <sl-button href="/boost-hello.html">boosted</sl-button>.
+		This one has an override set to be <sl-button hx-boost="false" href="/noboost-hello.html">not boosted</sl-button>.
+	</div>
+	<h3>2. Others</h3>
+	<p>These last 2 links test the other boostable elements from Shoelace. They should both be boosted.</p>
+	<div class="well">
+		<sl-icon-button name="rocket" href="/boost-hello.html" hx-boost="true"></sl-icon-button> &lt;-- Click this sl-icon-button
+		<sl-divider></sl-divider>
+		<sl-breadcrumb>
+			<sl-breadcrumb-item href="/boost-hello.html" hx-boost="true">I am a boosted sl-breadcrumb-item</sl-breadcrumb-item>
+		</sl-breadcrumb>
+	</div>
+	<p>For good measure, here's another link that should be <sl-button hx-boost="false" href="/noboost-hello.html">not boosted</sl-button>.</p>
+
+	<p>This is a normal <a href="/boost-hello.html" hx-boost="true">anchor link with boosting</a></p>
+
+	<section id="boost-preserve-test" hx-preserve style="background-color: var(--sl-color-warning-400);">
+		If the message in this box changes, hx-preserve didn't work.
+	</section>
 </body>
 </html>
